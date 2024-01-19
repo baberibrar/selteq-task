@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  # Redis service
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - my_custom_network  
+
+  # Django web application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - my_custom_network  
+
+  # Celery worker
+  worker:
+    build:
+      context: .
+      dockerfile: celery_worker/Dockerfile
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    networks:
+      - my_custom_network  
+
+  # Celery beat
+  beat:
+    build:
+      context: .
+      dockerfile: celery_beat/Dockerfile
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    networks:
+      - my_custom_network  
+      
+networks:
+  my_custom_network:
+
