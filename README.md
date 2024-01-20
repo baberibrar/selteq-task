@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Django project, named "Selteq-Task," serves as a foundation for a custom authentication and authorization system, API development, Celery integration for asynchronous tasks, and Docker containerization.
+This Django project, named "selteq_task," serves as a foundation for a custom authentication and authorization system, API development, Celery integration for asynchronous tasks, and Docker containerization.
 
 ## Project Structure
 
